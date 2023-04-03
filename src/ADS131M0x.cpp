@@ -629,6 +629,37 @@ int32_t ADS131M0x::readfastCh0(void)
   return val32Ch0;
 }
 
+/// @brief reset device from register, read CAP 8.5.1.10 Commands from official documentation  
+/// @param  
+/// @return True if the device responded with the RSP_RESET_OK message
+bool ADS131M0x::resetDevice(void){
+  uint8_t x = 0;
+  uint8_t x2 = 0;
+  uint16_t ris = 0;
+
+  digitalWrite(csPin, LOW);
+  #ifndef NO_CS_DELAY
+    delayMicroseconds(1);
+  #endif
+
+  x = spiPort->transfer(0x00);
+  x2 = spiPort->transfer(0x11);
+  spiPort->transfer(0x00);
+
+  ris =  ((x << 8) | x2);
+
+  digitalWrite(csPin, HIGH);
+  #ifndef NO_CS_DELAY
+    delayMicroseconds(1);
+  #endif
+
+  if(RSP_RESET_OK == ris){
+    return true;
+  }
+  return false;
+}
+
+
 /// @brief Read ADC port (all Ports)
 /// @param  
 /// @return 
