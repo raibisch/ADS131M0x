@@ -281,6 +281,7 @@ public:
   bool setChannelOffsetCalibration(uint8_t channel, int32_t offset);
   bool setChannelGainCalibration(uint8_t channel, uint32_t gain);
   bool setOsr(uint16_t osr);
+  bool resetDevice(void);
 
   uint16_t isResetOK(void);
   adcOutput readADC(void);
